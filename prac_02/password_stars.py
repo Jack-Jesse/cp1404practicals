@@ -1,5 +1,6 @@
 """
 Password stars
+CP1404/CP5632 - Practical
 A program to print a star for every character in password.
 """
 
