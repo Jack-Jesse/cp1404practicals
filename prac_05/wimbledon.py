@@ -13,12 +13,12 @@ def main():
     data = load_file("wimbledon.csv")
     champions = [champion[:][2] for champion in data]
     count_champion_wins(champion_to_count, champions)
-    print_champion_number_of_wins(champion_to_count)
+    print_results(champion_to_count)
     winning_countries = sorted({country[:][1] for country in data})
     print(", ".join(winning_countries))
 
 
-def print_champion_number_of_wins(champion_to_count):
+def print_results(champion_to_count):
     """Print the champions with their number of wins."""
     for champion, number_of_wins in champion_to_count.items():
         print(champion, number_of_wins)
