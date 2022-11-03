@@ -1,24 +1,30 @@
 """
 Project
-
+Estimate: 120 minutes
+Actual:
 """
+
+from project import Project
 
 MENU = """- (L)oad projects
 - (S)ave projects
 - (D)isplay projects
 - (F)ilter projects by date
-- (A)dd new project 
-- (U)pdate project 
+- (A)dd new project
+- (U)pdate project
 - (Q)uit"""
+
+FILENAME = "project.txt"
 
 
 def main():
-    load_file()
+    projects = []
+    load_file(FILENAME, projects)
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            load_file()
+            load_file(FILENAME, projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
@@ -35,6 +41,24 @@ def main():
         choice = input(">>> ").upper()
 
 
+def load_file(filename, projects):
+    with open(filename, "r", encoding="utf-8") as in_file:
+        in_file.readline()
+        for line in in_file:
+            projects.append(line)
+
+
+
+
+
+def save_file():
+    print("Save file")
+
+
+def display_projects():
+    print("display project")
+
+
 def update_project():
     print("Update project")
 
@@ -45,18 +69,6 @@ def add_new_project():
 
 def filter_projects_by_date():
     print("Filter projects by date")
-
-
-def display_projects():
-    print("Display projects")
-
-
-def load_file():
-    print("Load file")
-
-
-def save_file():
-    print("Save file")
 
 
 main()
