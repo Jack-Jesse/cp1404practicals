@@ -20,16 +20,17 @@ FILENAME = "project.txt"
 
 def main():
     projects = []
+    load_file(FILENAME, projects)
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
             filename = input("Filename: ")
-            load_file(filename, projects)
+            load_file(FILENAME, projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
-            display_projects()
+            display_projects(projects)
         elif choice == "F":
             filter_projects_by_date()
         elif choice == "A":
@@ -47,7 +48,7 @@ def load_file(filename, projects):
         in_file.readline()  # remove the first line
         for line in in_file:
             parts = line.strip().split("\t")
-            project = Project(parts[0], parts[1], parts[2], parts[3], parts[4])
+            project = Project(parts[0], parts[1], parts[2], float(parts[3]), parts[4])
             projects.append(project)
 
 
@@ -55,8 +56,9 @@ def save_file():
     print("Save file")
 
 
-def display_projects():
-    print("display project")
+def display_projects(projects):
+    for project in projects:
+        print(project)
 
 
 def update_project():
