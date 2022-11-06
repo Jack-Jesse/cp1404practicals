@@ -11,6 +11,7 @@ def main():
     """Sort the guitars into a sorted list."""
     guitars = []
     load_file(FILENAME, guitars)
+    guitars.sort()
 
 
 def load_file(filename, guitars):

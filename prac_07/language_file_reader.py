@@ -35,7 +35,6 @@ def main():
     # Close the file as soon as we've finished reading it
     in_file.close()
 
-
     # Loop through and display all languages (using their str method)
     for language in languages:
         print(language)
