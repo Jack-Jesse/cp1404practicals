@@ -4,6 +4,7 @@ Estimate: 120 minutes
 Actual:
 """
 
+import datetime
 from project import Project
 
 MENU = """- (L)oad projects
@@ -19,12 +20,12 @@ FILENAME = "project.txt"
 
 def main():
     projects = []
-    load_file(FILENAME, projects)
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            load_file(FILENAME, projects)
+            filename = input("Filename: ")
+            load_file(filename, projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
@@ -43,12 +44,11 @@ def main():
 
 def load_file(filename, projects):
     with open(filename, "r", encoding="utf-8") as in_file:
-        in_file.readline()
+        in_file.readline()  # remove the first line
         for line in in_file:
-            projects.append(line)
-
-
-
+            parts = line.strip().split("\t")
+            project = Project(parts[0], parts[1], parts[2], parts[3], parts[4])
+            projects.append(project)
 
 
 def save_file():
