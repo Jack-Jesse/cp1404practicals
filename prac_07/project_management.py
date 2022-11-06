@@ -6,6 +6,7 @@ Actual:
 
 import datetime
 from project import Project
+from operator import attrgetter
 
 MENU = """- (L)oad projects
 - (S)ave projects
@@ -20,17 +21,19 @@ FILENAME = "project.txt"
 
 def main():
     projects = []
-    load_file(FILENAME, projects)
+    incomplete_projects = []
+    completed_projects = []
+    load_file(FILENAME, incomplete_projects, completed_projects)
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
             filename = input("Filename: ")
-            load_file(FILENAME, projects)
+            load_file(FILENAME, incomplete_projects, completed_projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
-            display_projects(projects)
+            display_projects(incomplete_projects, completed_projects)
         elif choice == "F":
             filter_projects_by_date()
         elif choice == "A":
@@ -43,22 +46,31 @@ def main():
         choice = input(">>> ").upper()
 
 
-def load_file(filename, projects):
+def load_file(filename, incomplete_projects, completed_projects):
     with open(filename, "r", encoding="utf-8") as in_file:
         in_file.readline()  # remove the first line
         for line in in_file:
             parts = line.strip().split("\t")
-            project = Project(parts[0], parts[1], parts[2], float(parts[3]), parts[4])
-            projects.append(project)
+            project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
+            if project.completion_percentage == 100:
+                completed_projects.append(project)
+            else:
+                incomplete_projects.append(project)
 
 
 def save_file():
     print("Save file")
 
 
-def display_projects(projects):
-    for project in projects:
-        print(project)
+def display_projects(incomplete_projects, completed_projects):
+    incomplete_projects.sort(key=attrgetter("priority"))
+    completed_projects.sort(key=attrgetter("priority"))
+    print("Incomplete projects:")
+    for incomplete_project in incomplete_projects:
+        print(f"\t{incomplete_project}")
+    print("Completed projects:")
+    for completed_project in completed_projects:
+        print(f"\t{completed_project}")
 
 
 def update_project():
