@@ -29,7 +29,7 @@ def main():
     while choice != "Q":
         if choice == "L":
             filename = input("Filename: ")
-            load_file(FILENAME, incomplete_projects, completed_projects)
+            load_file(filename, incomplete_projects, completed_projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
@@ -37,7 +37,7 @@ def main():
         elif choice == "F":
             filter_projects_by_date()
         elif choice == "A":
-            add_new_project()
+            add_new_project(incomplete_projects, completed_projects)
         elif choice == "U":
             update_project()
         else:
@@ -52,7 +52,7 @@ def load_file(filename, incomplete_projects, completed_projects):
         for line in in_file:
             parts = line.strip().split("\t")
             project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
-            if project.completion_percentage == 100:
+            if project.is_complete():
                 completed_projects.append(project)
             else:
                 incomplete_projects.append(project)
@@ -77,8 +77,18 @@ def update_project():
     print("Update project")
 
 
-def add_new_project():
-    print("add new project")
+def add_new_project(incomplete_projects, completed_projects):
+    print("Let's add a new project")
+    name = input("Name: ")
+    start_date = input("Start date: ")
+    priority = int(input("Priority: "))
+    cost_estimate = float(input("Cost estimate: "))
+    percent_complete = int(input("Percent complete: "))
+    project = Project(name, start_date, priority, cost_estimate, percent_complete)
+    if project.is_complete():
+        completed_projects.append(project)
+    else:
+        incomplete_projects.append(project)
 
 
 def filter_projects_by_date():
