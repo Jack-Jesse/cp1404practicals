@@ -52,10 +52,7 @@ def load_file(filename, incomplete_projects, completed_projects):
         for line in in_file:
             parts = line.strip().split("\t")
             project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
-            if project.is_complete():
-                completed_projects.append(project)
-            else:
-                incomplete_projects.append(project)
+            completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
 
 
 def save_file():
@@ -85,10 +82,7 @@ def add_new_project(incomplete_projects, completed_projects):
     cost_estimate = float(input("Cost estimate: "))
     percent_complete = int(input("Percent complete: "))
     project = Project(name, start_date, priority, cost_estimate, percent_complete)
-    if project.is_complete():
-        completed_projects.append(project)
-    else:
-        incomplete_projects.append(project)
+    completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
 
 
 def filter_projects_by_date():
