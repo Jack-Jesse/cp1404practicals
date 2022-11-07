@@ -76,6 +76,12 @@ def update_project(projects):
     for i, project in enumerate(projects):
         print(f"{i} {project}")
     choice = int(input("Project choice: "))
+    project = projects[choice]
+    print(projects[choice])
+    new_percentage = int(input("New Percentage: "))
+    new_priority = int(input("New Priority: "))
+    project.completion_percentage = new_percentage
+    project.priority = new_priority
 
 
 def add_new_project(projects):
