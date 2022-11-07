@@ -21,45 +21,47 @@ FILENAME = "project.txt"
 
 def main():
     projects = []
-    incomplete_projects = []
-    completed_projects = []
-    load_file(FILENAME, incomplete_projects, completed_projects)
+    load_file(FILENAME, projects)
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
             filename = input("Filename: ")
-            load_file(filename, incomplete_projects, completed_projects)
+            load_file(filename, projects)
         elif choice == "S":
             save_file()
         elif choice == "D":
-            display_projects(incomplete_projects, completed_projects)
+            display_projects(projects)
         elif choice == "F":
             filter_projects_by_date()
         elif choice == "A":
-            add_new_project(incomplete_projects, completed_projects)
+            add_new_project(projects)
         elif choice == "U":
-            update_project()
+            update_project(projects)
         else:
             print("Invalid input")
         print(MENU)
         choice = input(">>> ").upper()
 
 
-def load_file(filename, incomplete_projects, completed_projects):
+def load_file(filename, projects):
     with open(filename, "r", encoding="utf-8") as in_file:
         in_file.readline()  # remove the first line
         for line in in_file:
             parts = line.strip().split("\t")
             project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
-            completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
+            projects.append(project)
 
 
 def save_file():
     print("Save file")
 
 
-def display_projects(incomplete_projects, completed_projects):
+def display_projects(projects):
+    incomplete_projects = []
+    completed_projects = []
+    for project in projects:
+        completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
     incomplete_projects.sort(key=attrgetter("priority"))
     completed_projects.sort(key=attrgetter("priority"))
     print("Incomplete projects:")
@@ -70,11 +72,13 @@ def display_projects(incomplete_projects, completed_projects):
         print(f"\t{completed_project}")
 
 
-def update_project():
-    print("Update project")
+def update_project(projects):
+    for i, project in enumerate(projects):
+        print(f"{i} {project}")
+    choice = int(input("Project choice: "))
 
 
-def add_new_project(incomplete_projects, completed_projects):
+def add_new_project(projects):
     print("Let's add a new project")
     name = input("Name: ")
     start_date = input("Start date: ")
@@ -82,7 +86,7 @@ def add_new_project(incomplete_projects, completed_projects):
     cost_estimate = float(input("Cost estimate: "))
     percent_complete = int(input("Percent complete: "))
     project = Project(name, start_date, priority, cost_estimate, percent_complete)
-    completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
+    projects.append(project)
 
 
 def filter_projects_by_date():
