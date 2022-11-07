@@ -13,3 +13,6 @@ class Project:
     def __str__(self):
         return f"{self.name}, start: {self.start_date}, priority: {self.priority}, " \
                f"${self.cost_estimate:.2f}, completion: {self.completion_percentage}%"
+
+    def is_complete(self):
+        return self.completion_percentage == 100
