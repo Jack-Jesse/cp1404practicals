@@ -11,8 +11,10 @@ class Project:
         self.completion_percentage = completion_percentage
 
     def __str__(self):
+        """Return neatly formatted string."""
         return f"{self.name}, start: {self.start_date}, priority: {self.priority}, " \
                f"${self.cost_estimate:.2f}, completion: {self.completion_percentage}%"
 
     def is_complete(self):
+        """Return if project is complete."""
         return self.completion_percentage == 100
