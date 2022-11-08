@@ -47,9 +47,10 @@ def main():
 
 def load_file(filename, projects):
     """Load file from file in to projects list."""
+    del projects[:]  # Delete previously loaded projects to avoid duplicates
     try:
         with open(filename, "r", encoding="utf-8") as in_file:
-            in_file.readline()  # remove the first line
+            in_file.readline()  # remove the first line of headings
             for line in in_file:
                 parts = line.strip().split("\t")
                 project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
@@ -149,8 +150,14 @@ def add_new_project(projects):
 def filter_projects_by_date(projects):
     """Display projects filtered by date."""
     filtered_projects = []
-    date_string = input("Show projects that start after date (dd/mm/yy): ")
-    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    is_valid_date = False
+    while not is_valid_date:
+        try:
+            date_string = input("Show projects that start after date (dd/mm/yy): ")
+            date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+            is_valid_date = True
+        except ValueError:
+            print("Enter valid date format (dd/mm/yy)")
     for project in projects:
         if datetime.datetime.strptime(project.start_date, "%d/%m/%Y").date() >= date:
             filtered_projects.append(project)
