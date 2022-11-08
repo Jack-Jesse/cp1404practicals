@@ -5,8 +5,8 @@ Actual:
 """
 
 import datetime
-from project import Project
 from operator import attrgetter
+from project import Project
 
 MENU = """- (L)oad projects
 - (S)ave projects
@@ -20,6 +20,7 @@ FILENAME = "project.txt"
 
 
 def main():
+    """Run menu program for project management with various options."""
     projects = []
     load_file(FILENAME, projects)
     print(MENU)
@@ -45,17 +46,22 @@ def main():
 
 
 def load_file(filename, projects):
-    with open(filename, "r", encoding="utf-8") as in_file:
-        in_file.readline()  # remove the first line
-        for line in in_file:
-            parts = line.strip().split("\t")
-            project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
-            projects.append(project)
+    """Load file from file in to projects list."""
+    try:
+        with open(filename, "r", encoding="utf-8") as in_file:
+            in_file.readline()  # remove the first line
+            for line in in_file:
+                parts = line.strip().split("\t")
+                project = Project(parts[0], parts[1], int(parts[2]), float(parts[3]), int(parts[4]))
+                projects.append(project)
+    except FileNotFoundError:
+        print("File not found")
 
 
 def save_file(projects):
+    """Save projects to file selected by user through input."""
     filename = input("Filename: ")
-    with open(filename, "w") as out_file:
+    with open(filename, "w", encoding="utf-8") as out_file:
         print("Name	Start Date	Priority	Cost Estimate	Completion Percentage", file=out_file)
         for project in projects:
             print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t "
@@ -63,10 +69,14 @@ def save_file(projects):
 
 
 def display_projects(projects):
+    """Display projects neatly formatted."""
     incomplete_projects = []
     completed_projects = []
     for project in projects:
-        completed_projects.append(project) if project.is_complete() else incomplete_projects.append(project)
+        if project.is_complete():
+            completed_projects.append(project)
+        else:
+            incomplete_projects.append(project)
     incomplete_projects.sort(key=attrgetter("priority"))
     completed_projects.sort(key=attrgetter("priority"))
     print("Incomplete projects:")
@@ -78,18 +88,54 @@ def display_projects(projects):
 
 
 def update_project(projects):
+    """Update projects with new percentage and new priority entered by the user."""
     for i, project in enumerate(projects):
         print(f"{i} {project}")
-    choice = int(input("Project choice: "))
+    choice = get_valid_project(projects)
     project = projects[choice]
     print(project)
-    new_percentage = int(input("New Percentage: "))
-    new_priority = int(input("New Priority: "))
+    new_percentage = get_valid_number("New Percentage: ")
+    new_priority = get_valid_number("New Priority: ")
     project.completion_percentage = new_percentage
     project.priority = new_priority
 
 
+def get_valid_number(sentence):
+    """Get valid number with error checking."""
+    is_valid_number = False
+    while not is_valid_number:
+        try:
+            number = int(input(sentence))
+            if number < 0:
+                print("Number must be >= 0")
+            elif number > 100:
+                print("Number can only be <= 100")
+            else:
+                is_valid_number = True
+        except ValueError:
+            print("Must enter a number")
+    return number
+
+
+def get_valid_project(projects):
+    """Get valid project with error checking."""
+    is_valid_input = False
+    while not is_valid_input:
+        try:
+            choice = int(input("Project choice: "))
+            if choice < 0:
+                print("Number must be >= 0")
+            elif choice > len(projects) - 1:
+                print(f"Number must be <= {len(projects) - 1}")
+            else:
+                is_valid_input = True
+        except ValueError:
+            print("Must enter a number")
+    return choice
+
+
 def add_new_project(projects):
+    """Add new project to the projects list."""
     print("Let's add a new project")
     name = input("Name: ")
     start_date = input("Start date: ")
@@ -101,6 +147,7 @@ def add_new_project(projects):
 
 
 def filter_projects_by_date(projects):
+    """Display projects filtered by date."""
     filtered_projects = []
     date_string = input("Show projects that start after date (dd/mm/yy): ")
     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
