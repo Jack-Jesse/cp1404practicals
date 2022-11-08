@@ -29,11 +29,11 @@ def main():
             filename = input("Filename: ")
             load_file(filename, projects)
         elif choice == "S":
-            save_file()
+            save_file(projects)
         elif choice == "D":
             display_projects(projects)
         elif choice == "F":
-            filter_projects_by_date()
+            filter_projects_by_date(projects)
         elif choice == "A":
             add_new_project(projects)
         elif choice == "U":
@@ -53,8 +53,13 @@ def load_file(filename, projects):
             projects.append(project)
 
 
-def save_file():
-    print("Save file")
+def save_file(projects):
+    filename = input("Filename: ")
+    with open(filename, "w") as out_file:
+        print("Name	Start Date	Priority	Cost Estimate	Completion Percentage", file=out_file)
+        for project in projects:
+            print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t "
+                  f"{project.completion_percentage}", file=out_file)
 
 
 def display_projects(projects):
@@ -77,7 +82,7 @@ def update_project(projects):
         print(f"{i} {project}")
     choice = int(input("Project choice: "))
     project = projects[choice]
-    print(projects[choice])
+    print(project)
     new_percentage = int(input("New Percentage: "))
     new_priority = int(input("New Priority: "))
     project.completion_percentage = new_percentage
@@ -95,8 +100,16 @@ def add_new_project(projects):
     projects.append(project)
 
 
-def filter_projects_by_date():
-    print("Filter projects by date")
+def filter_projects_by_date(projects):
+    filtered_projects = []
+    date_string = input("Show projects that start after date (dd/mm/yy): ")
+    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    for project in projects:
+        if datetime.datetime.strptime(project.start_date, "%d/%m/%Y").date() >= date:
+            filtered_projects.append(project)
+    filtered_projects.sort(key=attrgetter("start_date"), reverse=True)
+    for filtered_project in filtered_projects:
+        print(filtered_project)
 
 
 main()
