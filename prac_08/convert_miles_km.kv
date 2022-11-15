@@ -1,0 +1,20 @@
+BoxLayout:
+    orientation: "vertical"
+    BoxLayout:
+        TextInput:
+            id: user_input
+            multiline: False
+        BoxLayout:
+            size_hint_x: 0.2
+            orientation: "vertical"
+            Button:
+                text: "Up"
+                on_press: app.handle_up()
+            Button:
+                text: "Down"
+                on_press: app.handle_down()
+    Button:
+        text: "Convert miles to kilometres"
+        on_press: app.handle_convert()
+    Label:
+        text: app.message
