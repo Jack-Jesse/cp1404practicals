@@ -1,8 +1,8 @@
 """
 Convert miles to km
 CP1404/CP5632 Practical
-Estimate: 30 minutes 11:13am
-Actual:
+Estimate: 30 minutes
+Actual: 45 minutes
 """
 from kivy.app import App
 from kivy.lang import Builder
