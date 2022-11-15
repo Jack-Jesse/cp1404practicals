@@ -4,17 +4,16 @@ BoxLayout:
         TextInput:
             id: user_input
             multiline: False
+            text: "34"
+            on_text: app.handle_convert()
         BoxLayout:
             size_hint_x: 0.2
             orientation: "vertical"
             Button:
                 text: "Up"
-                on_press: app.handle_up()
+                on_press: app.handle_increment(1)
             Button:
                 text: "Down"
-                on_press: app.handle_down()
-    Button:
-        text: "Convert miles to kilometres"
-        on_press: app.handle_convert()
+                on_press: app.handle_increment(- 1)
     Label:
         text: app.message

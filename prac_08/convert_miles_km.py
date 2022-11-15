@@ -8,6 +8,8 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 
+MILES_TO_KILOMETRES = 1.609
+
 
 class ConvertMilesToKm(App):
     """Initialise class for Convert to miles to kilometres program."""
@@ -20,20 +22,25 @@ class ConvertMilesToKm(App):
         self.message = "Type in a number"
         return self.root
 
-    def handle_up(self):
-        """Handle the up button press."""
-        user_input_number = int(self.root.ids.user_input.text)
-        self.root.ids.user_input.text = str(user_input_number + 1)
-
-    def handle_down(self):
-        """Handle the down button press."""
-        user_input_number = int(self.root.ids.user_input.text)
-        self.root.ids.user_input.text = str(user_input_number - 1)
+    def handle_increment(self, change):
+        """Handle the increment."""
+        miles = int(self.get_valid_miles()) + change
+        self.root.ids.user_input.text = str(miles)
+        self.handle_convert()
 
     def handle_convert(self):
         """Handle the convert button press miles to kilometres."""
-        kilometres = int(self.root.ids.user_input.text) * 1.609
+        miles = self.get_valid_miles()
+        kilometres = int(miles) * MILES_TO_KILOMETRES
         self.message = str(kilometres)
+
+    def get_valid_miles(self):
+        """Get valid miles."""
+        try:
+            user_input = float(self.root.ids.user_input.text)
+            return user_input
+        except ValueError:
+            return 0
 
 
 ConvertMilesToKm().run()
