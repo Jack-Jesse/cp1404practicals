@@ -32,8 +32,8 @@ class ConvertMilesToKm(App):
 
     def handle_convert(self):
         """Handle the convert button press miles to kilometres."""
-        miles = int(self.root.ids.user_input.text) * 1.609
-        self.message = str(miles)
+        kilometres = int(self.root.ids.user_input.text) * 1.609
+        self.message = str(kilometres)
 
 
 ConvertMilesToKm().run()
