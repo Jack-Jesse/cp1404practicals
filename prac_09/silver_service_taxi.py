@@ -1,8 +1,7 @@
 """
 Silver service taxi class
 Estimate: 60 minutes
-10 minutes so far
-Actual:
+Actual: 50 minutes
 """
 
 from prac_09.taxi import Taxi
