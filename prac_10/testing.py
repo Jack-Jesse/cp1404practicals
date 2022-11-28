@@ -51,6 +51,9 @@ def run_tests():
     # using the value passed in or the default
     # You should test both of these
     test_car = Car(fuel=10)
+    another_test_car = Car()
+    assert test_car.fuel == 10
+    assert another_test_car.fuel == 0
 
 
 run_tests()
