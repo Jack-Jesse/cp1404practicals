@@ -30,6 +30,13 @@ def is_long_word(word, length=5):
     return len(word) >= length
 
 
+def format_a_phrase(s):
+    first_letter_upper = s[0].upper()
+    if s[-1] != ".":
+        return f"{first_letter_upper}{s[1:]}."
+    return s
+
+
 def run_tests():
     """Run the tests on the functions."""
     # assert test with no message - used to see if the function works properly
@@ -60,7 +67,7 @@ run_tests()
 
 # TODO: 3. Uncomment the following line and run the doctests
 # (PyCharm may see your >>> doctest comments and run doctests anyway.)
-# doctest.testmod()
+doctest.testmod()
 
 # TODO: 4. Fix the failing is_long_word function
 # (don't change the tests, change the function!)
@@ -69,8 +76,8 @@ run_tests()
 # starting with a capital and ending with a single full stop.
 # Important: start with a function header and just use pass as the body
 # then add doctests for 3 tests:
-# 'hello' -> 'Hello.'
-# 'It is an ex parrot.' -> 'It is an ex parrot.'
-# and one more you decide (one that is valid!)
+assert format_a_phrase("hello") == "Hello."  # 'hello' -> 'Hello.'
+assert format_a_phrase("It is an ex parrot.") == "It is an ex parrot."  # 'It is an ex parrot.' -> 'It is an ex parrot.'
+assert format_a_phrase("hello there") == "Hello there."  # and one more you decide (one that is valid!)
 # test this and watch the tests fail
 # then write the body of the function so that the tests pass
