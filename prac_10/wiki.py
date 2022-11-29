@@ -6,6 +6,7 @@ import wikipedia
 
 
 def main():
+    """Search wikipedia and display the data."""
     search = input("Wiki search: ")
     print("Loading...")
     print(wikipedia.search(search))

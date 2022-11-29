@@ -31,6 +31,7 @@ def is_long_word(word, length=5):
 
 
 def format_a_phrase(s):
+    """Format a phrase."""
     first_letter_upper = s[0].upper()
     if s[-1] != ".":
         return f"{first_letter_upper}{s[1:]}."
